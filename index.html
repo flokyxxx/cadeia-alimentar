@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Cadeia Alimentar</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <!-- Botão Hambúrguer -->
+  <button id="botaoMenu" onclick="toggleMenu()">☰</button>
+
+  <!-- Menu Lateral -->
+  <div id="menuLateral" class="fechado">
+    <button onclick="toggleMenu()" class="fechar">✖</button>
+    <h2>Menu</h2>
+    <button onclick="mostrarEnciclopedia()">Enciclopédia</button>
+    <button onclick="tocarAudio('produtor')">Produtor</button>
+    <button onclick="tocarAudio('consumidor')">Consumidor</button>
+    <button onclick="tocarAudio('decompositor')">Decompositor</button>
+    <button onclick="mostrarBiomas()">Mapa de Biomas</button>
+    <button onclick="iniciarQuiz()">Desafio Rápido</button>
+    <button onclick="mostrarCuriosidade()">Curiosidade</button>
+    <button onclick="mostrarMedalhas()">Ver Medalhas</button>
+  </div>
+
+  <!-- TELA INICIAL -->
+  <div id="telaInicial">
+    <h1>🌿 Cadeia Alimentar</h1>
+    <p>Bem-vindo(a)! Explore o ciclo da vida na natureza.</p>
+    <button onclick="entrarApp()">Entrar</button>
+  </div>
+
+  <!-- APLICATIVO PRINCIPAL -->
+<div id="app" style="display: none;">
+  <h1>Cadeia Alimentar</h1>
+
+  <!-- Aqui é onde o conteúdo aparece dinamicamente -->
+  <div id="conteudo" style="display: none;"></div>
+</div>
+
+
+  <!-- Script externo -->
+  <script src="script.js"></script>
+</body>
+</html>
+

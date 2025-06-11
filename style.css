@@ -1,0 +1,263 @@
+/* RESET */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background: linear-gradient(135deg, #e0f2f1, #f1f8e9);
+  color: #333;
+  min-height: 100vh;
+  padding: 20px;
+}
+
+/* Título */
+h1 {
+  text-align: center;
+  font-size: 40px;
+  margin-bottom: 20px;
+  color: #004d40;
+}
+
+/* Tela Inicial */
+#telaInicial {
+  background: white;
+  max-width: 500px;
+  margin: 100px auto;
+  padding: 40px 30px;
+  border-radius: 20px;
+  text-align: center;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+  animation: fadeIn 0.8s ease-in-out;
+}
+
+#telaInicial h1 {
+  font-size: 42px;
+  margin-bottom: 20px;
+  color: #00796b;
+}
+
+#telaInicial p {
+  font-size: 18px;
+  margin-bottom: 30px;
+}
+
+#telaInicial button {
+  padding: 14px 32px;
+  font-size: 18px;
+  background-color: #00796b;
+  color: #fff;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: background 0.3s, transform 0.2s;
+}
+
+#telaInicial button:hover {
+  background-color: #004d40;
+  transform: scale(1.05);
+}
+
+/* Botão Hamburguer */
+#botaoMenu {
+  position: fixed;
+  top: 20px;
+  left: 20px;
+  background-color: #00796b;
+  color: white;
+  border: none;
+  font-size: 24px;
+  padding: 10px 14px;
+  border-radius: 50%;
+  cursor: pointer;
+  z-index: 1000;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+}
+
+#botaoMenu:hover {
+  background-color: #004d40;
+}
+
+/* Menu Lateral */
+#menuLateral {
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 240px;
+  height: 100%;
+  background-color: #004d40;
+  color: white;
+  padding: 20px;
+  box-shadow: 3px 0 10px rgba(0,0,0,0.2);
+  transform: translateX(-100%);
+  transition: transform 0.3s ease;
+  z-index: 999;
+}
+
+#menuLateral.aberto {
+  transform: translateX(0%);
+}
+
+#menuLateral h2 {
+  margin-bottom: 20px;
+  font-size: 22px;
+  color: #a7ffeb;
+}
+
+#menuLateral button {
+  display: block;
+  width: 100%;
+  margin: 10px 0;
+  padding: 12px;
+  background-color: transparent;
+  color: white;
+  border: 1px solid #a7ffeb;
+  border-radius: 8px;
+  cursor: pointer;
+  text-align: left;
+  transition: background 0.2s;
+}
+
+#menuLateral button:hover {
+  background-color: #00796b;
+}
+
+#menuLateral .fechar {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  border: none;
+  background: none;
+  font-size: 20px;
+  color: white;
+}
+
+/* Conteúdo dinâmico */
+#conteudo {
+  background-color: #ffffff;
+  border-radius: 16px;
+  padding: 24px;
+  max-width: 700px;
+  margin: 30px auto;
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.1);
+  display: none;
+  animation: fadeIn 0.5s ease;
+}
+
+#conteudo h3 {
+  color: #00695c;
+  margin-bottom: 15px;
+  font-size: 24px;
+}
+
+#conteudo p {
+  font-size: 16px;
+  line-height: 1.6;
+  color: #444;
+}
+
+#conteudo img {
+  max-width: 100%;
+  border-radius: 10px;
+  margin: 20px 0;
+}
+
+/* Botões dentro do conteúdo */
+#conteudo button {
+  background-color: #ef5350;
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  font-weight: bold;
+  border-radius: 8px;
+  cursor: pointer;
+  margin-top: 20px;
+  transition: background 0.3s ease;
+}
+
+#conteudo button:hover {
+  background-color: #c62828;
+}
+
+/* Animações */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Responsivo */
+@media (max-width: 600px) {
+  #telaInicial {
+    margin: 60px 10px;
+    padding: 30px 20px;
+  }
+
+  #menuLateral {
+    width: 80%;
+  }
+}
+/* RESPONSIVIDADE MOBILE */
+@media (max-width: 768px) {
+  body {
+    padding: 10px;
+  }
+
+  h1 {
+    font-size: 28px;
+  }
+
+  #telaInicial {
+    padding: 20px;
+    margin: 60px 10px;
+  }
+
+  #telaInicial h1 {
+    font-size: 32px;
+  }
+
+  #telaInicial p {
+    font-size: 16px;
+  }
+
+  #telaInicial button {
+    padding: 12px 24px;
+    font-size: 16px;
+  }
+
+  #conteudo {
+    padding: 18px;
+    margin: 20px 0;
+  }
+
+  #conteudo h3 {
+    font-size: 20px;
+  }
+
+  #conteudo p {
+    font-size: 15px;
+  }
+
+  #menuLateral {
+    width: 80%;
+  }
+
+  #botaoMenu {
+    padding: 10px;
+    font-size: 20px;
+  }
+
+  #menuLateral button {
+    font-size: 15px;
+    padding: 10px;
+  }
+}
+
+
