@@ -2,44 +2,196 @@
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8">
- <title>Cadeia Alimentar Atualizado</title>
+  <title>Cadeia Alimentar</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <!-- Botão Hambúrguer -->
-
-<div id="hamburguer" onclick="toggleMenu()">☰</div>
-
-
-  <!-- Menu Lateral -->
-  <div id="menu">
-  <button onclick="tocarAudio('produtor')">🌿 Produtor</button>
-  <button onclick="tocarAudio('consumidor')">🦁 Consumidor</button>
-  <button onclick="tocarAudio('decompositor')">🍄 Decompositor</button>
-  <button onclick="mostrarBiomas()">🗺️ Mapa de Biomas</button>
-  <button onclick="iniciarQuiz()">🧠 Desafio Rápido</button>
-  <button onclick="mostrarMedalhas()">🏅 Ver Medalhas</button>
-</div>
-
-
-  <!-- TELA INICIAL -->
+  <!-- TELA DE ENTRADA -->
   <div id="telaInicial">
-    <h1>🌿 Cadeia Alimentar</h1>
-    <p>Bem-vindo(a)! Explore o ciclo da vida na natureza.</p>
-    <button onclick="entrarApp()">Entrar</button>
+    <div class="container-inicio">
+      <h1>🌿 Cadeia Alimentar</h1>
+      <p>Bem-vindo(a)! Descubra como os seres vivos se conectam na natureza.</p>
+      <button onclick="entrarApp()">Entrar</button>
+    </div>
   </div>
 
   <!-- APLICATIVO PRINCIPAL -->
-<div id="app" style="display: none;">
-  <h1>Cadeia Alimentar</h1>
+  <div id="app" style="display: none;">
+    <h1>Cadeia Alimentar</h1>
 
-  <!-- Aqui é onde o conteúdo aparece dinamicamente -->
-  <div id="conteudo" style="display: none;"></div>
-</div>
+    <!-- Menu -->
+    <div id="menu">
+      <button onclick="alternarModo()">🌓 Alternar Modo Escuro</button>
+      <button onclick="playClick(); tocarAudio('produtor')">🌿 Produtor</button>
+      <button onclick="playClick(); tocarAudio('consumidor')">🦁 Consumidor</button>
+      <button onclick="playClick(); tocarAudio('decompositor')">🍄 Decompositor</button>
+      <button onclick="playClick(); mostrarBiomas()">🗺️ Mapa de Biomas</button>
+      <button onclick="playClick(); iniciarQuiz()">🧠 Desafio Rápido</button>
+      <button onclick="playClick(); mostrarMedalhas()">🏅 Ver Medalhas</button>
+    </div>
 
+    <div id="conteudo" style="display:none;"></div>
+  </div>
 
-  <!-- Script externo -->
-  <script src="script.js"></script>
+  <script>
+    function entrarApp() {
+      document.getElementById('telaInicial').style.display = 'none';
+      document.getElementById('app').style.display = 'block';
+    }
+
+    const somClique = new Audio("audios/click.mp3");
+
+    function playClick() {
+      somClique.currentTime = 0;
+      somClique.play();
+    }
+
+    let audioAtual = null;
+
+    function tocarAudio(nome) {
+      if (audioAtual) {
+        audioAtual.pause();
+        audioAtual.currentTime = 0;
+      }
+      audioAtual = new Audio(`audios/${nome}.mp3`);
+      audioAtual.play();
+
+      if (!localStorage.getItem('audio_' + nome)) {
+        localStorage.setItem('audio_' + nome, 'true');
+      }
+
+      if (
+        localStorage.getItem('audio_produtor') === 'true' &&
+        localStorage.getItem('audio_consumidor') === 'true' &&
+        localStorage.getItem('audio_decompositor') === 'true' &&
+        !localStorage.getItem('medalha_curioso')
+      ) {
+        localStorage.setItem('medalha_curioso', 'true');
+      }
+    }
+
+    function mostrarBiomas() {
+      const div = document.getElementById('conteudo');
+      div.innerHTML = `
+        <button onclick="fecharConteudo()" style="float:right;">Fechar</button>
+        <h3>Biomas do Brasil</h3>
+        <img src="imagens/biomas-brasil.png" style="max-width:100%; border-radius:8px;" alt="Biomas do Brasil">
+        <p>O Brasil possui 6 biomas principais: Amazônia, Cerrado, Caatinga, Mata Atlântica, Pantanal e Pampa.</p>
+      `;
+      div.style.display = 'block';
+
+      if (!localStorage.getItem('medalha_explorador')) {
+        localStorage.setItem('medalha_explorador', 'true');
+      }
+    }
+
+    function fecharConteudo() {
+      const div = document.getElementById('conteudo');
+      div.style.display = 'none';
+      div.innerHTML = '';
+    }
+
+    const perguntas = [
+      {
+        pergunta: "Quem é responsável por produzir o próprio alimento?",
+        opcoes: ["Consumidor", "Produtor", "Decompositor"],
+        correta: 1
+      },
+      {
+        pergunta: "Qual é o papel do decompositor na cadeia alimentar?",
+        opcoes: ["Produzir energia", "Comer plantas", "Reciclar matéria orgânica"],
+        correta: 2
+      },
+      {
+        pergunta: "Qual destes é um exemplo de consumidor?",
+        opcoes: ["Árvore", "Leão", "Cogumelo"],
+        correta: 1
+      }
+    ];
+
+    let indice = 0;
+    let pontos = 0;
+
+    function iniciarQuiz() {
+      indice = 0;
+      pontos = 0;
+
+      if (!localStorage.getItem('medalha_desafiante')) {
+        localStorage.setItem('medalha_desafiante', 'true');
+      }
+
+      mostrarPergunta();
+    }
+
+    function mostrarPergunta() {
+      const atual = perguntas[indice];
+      let html = `<h3>${atual.pergunta}</h3>`;
+
+      atual.opcoes.forEach((opcao, i) => {
+        html += `<button onclick='verificarResposta(${i})' style='margin: 5px;'>${opcao}</button><br>`;
+      });
+
+      html += `<p>Pergunta ${indice + 1} de ${perguntas.length}</p>`;
+      document.getElementById('conteudo').innerHTML = html;
+      document.getElementById('conteudo').style.display = 'block';
+    }
+
+    function verificarResposta(resposta) {
+      const correta = perguntas[indice].correta;
+      if (resposta === correta) {
+        pontos++;
+        alert("✅ Resposta correta!");
+      } else {
+        alert("❌ Resposta incorreta!");
+      }
+
+      indice++;
+      if (indice < perguntas.length) {
+        mostrarPergunta();
+      } else {
+        mostrarResultado();
+      }
+    }
+
+    function mostrarResultado() {
+      if (pontos === perguntas.length && !localStorage.getItem('medalha_mestre')) {
+        localStorage.setItem('medalha_mestre', 'true');
+      }
+
+      document.getElementById('conteudo').innerHTML = `
+        <h3>Fim do Desafio!</h3>
+        <p>Você acertou <strong>${pontos}</strong> de <strong>${perguntas.length}</strong> perguntas.</p>
+        <button onclick="fecharConteudo()">Fechar</button>
+      `;
+    }
+
+    function mostrarMedalhas() {
+      const div = document.getElementById('conteudo');
+
+      const m1 = localStorage.getItem('medalha_explorador') === 'true';
+      const m2 = localStorage.getItem('medalha_curioso') === 'true';
+      const m3 = localStorage.getItem('medalha_desafiante') === 'true';
+      const m4 = localStorage.getItem('medalha_mestre') === 'true';
+
+      let html = '<h3>Suas Medalhas</h3>';
+
+      if (m1) html += `<p>🥇 Explorador: acessou o Mapa de Biomas</p>`;
+      if (m2) html += `<p>🥈 Curioso: ouviu todos os áudios</p>`;
+      if (m3) html += `<p>🥉 Desafiante: participou do quiz</p>`;
+      if (m4) html += `<p>🏅 Mestre da Cadeia: acertou todas as perguntas</p>`;
+
+      if (!m1 && !m2 && !m3 && !m4) {
+        html += `<p>😕 Nenhuma medalha conquistada ainda. Explore o app!</p>`;
+      }
+
+      html += `<button onclick="fecharConteudo()">Fechar</button>`;
+      div.innerHTML = html;
+      div.style.display = 'block';
+    }
+    function alternarModo() {
+  document.body.classList.toggle('dark-mode');
+}
+  </script>
 </body>
 </html>
-
