@@ -1,12 +1,17 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Cadeia Alimentar</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
+  <!-- BOTÃO MODO ESCURO -->
+  <div style="position: fixed; top: 10px; left: 10px; z-index: 999;">
+    <button onclick="alternarModo()">🌓</button>
+  </div>
+
   <!-- TELA DE ENTRADA -->
   <div id="telaInicial">
     <div class="container-inicio">
@@ -19,10 +24,7 @@
   <!-- APLICATIVO PRINCIPAL -->
   <div id="app" style="display: none;">
     <h1>Cadeia Alimentar</h1>
-
-    <!-- Menu -->
     <div id="menu">
-      <button onclick="alternarModo()">🌓 Alternar Modo Escuro</button>
       <button onclick="playClick(); tocarAudio('produtor')">🌿 Produtor</button>
       <button onclick="playClick(); tocarAudio('consumidor')">🦁 Consumidor</button>
       <button onclick="playClick(); tocarAudio('decompositor')">🍄 Decompositor</button>
@@ -30,14 +32,18 @@
       <button onclick="playClick(); iniciarQuiz()">🧠 Desafio Rápido</button>
       <button onclick="playClick(); mostrarMedalhas()">🏅 Ver Medalhas</button>
     </div>
-
-    <div id="conteudo" style="display:none;"></div>
+    <div id="conteudo" style="display: none;"></div>
   </div>
 
   <script>
     function entrarApp() {
-      document.getElementById('telaInicial').style.display = 'none';
-      document.getElementById('app').style.display = 'block';
+      document.getElementById("telaInicial").style.display = "none";
+      document.getElementById("app").style.display = "block";
+      window.scrollTo(0, 0); // Garante visibilidade no celular
+    }
+
+    function alternarModo() {
+      document.body.classList.toggle("dark-mode");
     }
 
     const somClique = new Audio("audios/click.mp3");
@@ -57,57 +63,57 @@
       audioAtual = new Audio(`audios/${nome}.mp3`);
       audioAtual.play();
 
-      if (!localStorage.getItem('audio_' + nome)) {
-        localStorage.setItem('audio_' + nome, 'true');
+      if (!localStorage.getItem("audio_" + nome)) {
+        localStorage.setItem("audio_" + nome, "true");
       }
 
       if (
-        localStorage.getItem('audio_produtor') === 'true' &&
-        localStorage.getItem('audio_consumidor') === 'true' &&
-        localStorage.getItem('audio_decompositor') === 'true' &&
-        !localStorage.getItem('medalha_curioso')
+        localStorage.getItem("audio_produtor") === "true" &&
+        localStorage.getItem("audio_consumidor") === "true" &&
+        localStorage.getItem("audio_decompositor") === "true" &&
+        !localStorage.getItem("medalha_curioso")
       ) {
-        localStorage.setItem('medalha_curioso', 'true');
+        localStorage.setItem("medalha_curioso", "true");
       }
     }
 
     function mostrarBiomas() {
-      const div = document.getElementById('conteudo');
+      const div = document.getElementById("conteudo");
       div.innerHTML = `
         <button onclick="fecharConteudo()" style="float:right;">Fechar</button>
         <h3>Biomas do Brasil</h3>
         <img src="imagens/biomas-brasil.png" style="max-width:100%; border-radius:8px;" alt="Biomas do Brasil">
         <p>O Brasil possui 6 biomas principais: Amazônia, Cerrado, Caatinga, Mata Atlântica, Pantanal e Pampa.</p>
       `;
-      div.style.display = 'block';
+      div.style.display = "block";
 
-      if (!localStorage.getItem('medalha_explorador')) {
-        localStorage.setItem('medalha_explorador', 'true');
+      if (!localStorage.getItem("medalha_explorador")) {
+        localStorage.setItem("medalha_explorador", "true");
       }
     }
 
     function fecharConteudo() {
-      const div = document.getElementById('conteudo');
-      div.style.display = 'none';
-      div.innerHTML = '';
+      const div = document.getElementById("conteudo");
+      div.style.display = "none";
+      div.innerHTML = "";
     }
 
     const perguntas = [
       {
         pergunta: "Quem é responsável por produzir o próprio alimento?",
         opcoes: ["Consumidor", "Produtor", "Decompositor"],
-        correta: 1
+        correta: 1,
       },
       {
         pergunta: "Qual é o papel do decompositor na cadeia alimentar?",
         opcoes: ["Produzir energia", "Comer plantas", "Reciclar matéria orgânica"],
-        correta: 2
+        correta: 2,
       },
       {
         pergunta: "Qual destes é um exemplo de consumidor?",
         opcoes: ["Árvore", "Leão", "Cogumelo"],
-        correta: 1
-      }
+        correta: 1,
+      },
     ];
 
     let indice = 0;
@@ -117,8 +123,8 @@
       indice = 0;
       pontos = 0;
 
-      if (!localStorage.getItem('medalha_desafiante')) {
-        localStorage.setItem('medalha_desafiante', 'true');
+      if (!localStorage.getItem("medalha_desafiante")) {
+        localStorage.setItem("medalha_desafiante", "true");
       }
 
       mostrarPergunta();
@@ -133,8 +139,8 @@
       });
 
       html += `<p>Pergunta ${indice + 1} de ${perguntas.length}</p>`;
-      document.getElementById('conteudo').innerHTML = html;
-      document.getElementById('conteudo').style.display = 'block';
+      document.getElementById("conteudo").innerHTML = html;
+      document.getElementById("conteudo").style.display = "block";
     }
 
     function verificarResposta(resposta) {
@@ -155,11 +161,11 @@
     }
 
     function mostrarResultado() {
-      if (pontos === perguntas.length && !localStorage.getItem('medalha_mestre')) {
-        localStorage.setItem('medalha_mestre', 'true');
+      if (pontos === perguntas.length && !localStorage.getItem("medalha_mestre")) {
+        localStorage.setItem("medalha_mestre", "true");
       }
 
-      document.getElementById('conteudo').innerHTML = `
+      document.getElementById("conteudo").innerHTML = `
         <h3>Fim do Desafio!</h3>
         <p>Você acertou <strong>${pontos}</strong> de <strong>${perguntas.length}</strong> perguntas.</p>
         <button onclick="fecharConteudo()">Fechar</button>
@@ -167,14 +173,14 @@
     }
 
     function mostrarMedalhas() {
-      const div = document.getElementById('conteudo');
+      const div = document.getElementById("conteudo");
 
-      const m1 = localStorage.getItem('medalha_explorador') === 'true';
-      const m2 = localStorage.getItem('medalha_curioso') === 'true';
-      const m3 = localStorage.getItem('medalha_desafiante') === 'true';
-      const m4 = localStorage.getItem('medalha_mestre') === 'true';
+      const m1 = localStorage.getItem("medalha_explorador") === "true";
+      const m2 = localStorage.getItem("medalha_curioso") === "true";
+      const m3 = localStorage.getItem("medalha_desafiante") === "true";
+      const m4 = localStorage.getItem("medalha_mestre") === "true";
 
-      let html = '<h3>Suas Medalhas</h3>';
+      let html = "<h3>Suas Medalhas</h3>";
 
       if (m1) html += `<p>🥇 Explorador: acessou o Mapa de Biomas</p>`;
       if (m2) html += `<p>🥈 Curioso: ouviu todos os áudios</p>`;
@@ -187,11 +193,8 @@
 
       html += `<button onclick="fecharConteudo()">Fechar</button>`;
       div.innerHTML = html;
-      div.style.display = 'block';
+      div.style.display = "block";
     }
-    function alternarModo() {
-  document.body.classList.toggle('dark-mode');
-}
   </script>
 </body>
 </html>
