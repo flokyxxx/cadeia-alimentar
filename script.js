@@ -205,3 +205,7 @@ function mostrarEnciclopedia() {
   div.innerHTML = html;
   div.style.display = "block";
 }
+function toggleMenu() {
+  const menu = document.getElementById('menu');
+  menu.classList.toggle('show');
+}

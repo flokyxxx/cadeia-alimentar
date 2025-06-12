@@ -351,5 +351,41 @@ button:hover {
     padding: 15px;
   }
 }
+#hamburguer {
+  display: none;
+  font-size: 2rem;
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  background: #4caf50;
+  color: white;
+  padding: 10px 15px;
+  border-radius: 8px;
+  cursor: pointer;
+  z-index: 1000;
+}
+
+@media screen and (max-width: 600px) {
+  #hamburguer {
+    display: block;
+  }
+
+  #menu {
+    display: none;
+    flex-direction: column;
+    background: white;
+    border-radius: 10px;
+    padding: 10px;
+    position: fixed;
+    top: 70px;
+    right: 20px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.2);
+    z-index: 999;
+  }
+
+  #menu.show {
+    display: flex;
+  }
+}
 
 
